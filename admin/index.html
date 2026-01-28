@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>苏顺植保 - 后端管理系统</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-server"></i> 管理后台</h2>
+                <p>苏顺植保系统</p>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="#" class="nav-item active" data-page="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>仪表盘</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item" data-page="services">
+                            <i class="fas fa-cogs"></i>
+                            <span>服务管理</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item" data-page="models">
+                            <i class="fas fa-database"></i>
+                            <span>数据模型</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item" data-page="api">
+                            <i class="fas fa-plug"></i>
+                            <span>接口配置</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item" data-page="permissions">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>权限管理</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item" data-page="monitoring">
+                            <i class="fas fa-chart-line"></i>
+                            <span>实时监控</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item" data-page="logs">
+                            <i class="fas fa-file-alt"></i>
+                            <span>日志查看</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-item" data-page="settings">
+                            <i class="fas fa-sliders-h"></i>
+                            <span>系统设置</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="system-info">
+                    <p><i class="fas fa-circle status-dot online"></i> 系统运行中</p>
+                    <p>版本: 1.0.0</p>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1 id="current-page-title">仪表盘</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="refresh-btn">
+                        <i class="fas fa-sync-alt"></i> 刷新
+                    </button>
+                    <div class="user-info">
+                        <span><i class="fas fa-user-circle"></i> 管理员</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div id="dashboard-page" class="page active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>服务状态</h3>
+                                <p class="stat-value online">运行中</p>
+                                <p class="stat-label">正常运行时间: <span id="uptime">0天 0小时</span></p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>数据库</h3>
+                                <p class="stat-value">已连接</p>
+                                <p class="stat-label">连接池: <span id="db-connections">5/20</span></p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-memory"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>内存使用</h3>
+                                <p class="stat-value" id="memory-usage">15MB</p>
+                                <p class="stat-label">总内存: <span id="total-memory">17MB</span></p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>API调用</h3>
+                                <p class="stat-value" id="api-calls">0</p>
+                                <p class="stat-label">今日请求总数</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-container">
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-line"></i> 性能趋势</h3>
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3><i class="fas fa-chart-pie"></i> 资源使用</h3>
+                            <canvas id="resourceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="recent-activity">
+                        <h3><i class="fas fa-history"></i> 最近活动</h3>
+                        <div class="activity-list" id="activity-list">
+                            <div class="activity-item">
+                                <span class="activity-time">刚刚</span>
+                                <span class="activity-desc">系统启动成功</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="services-page" class="page">
+                    <div class="page-header">
+                        <h2>服务管理</h2>
+                        <button class="btn btn-success" id="start-all-services">
+                            <i class="fas fa-play"></i> 启动所有服务
+                        </button>
+                    </div>
+                    <div class="services-grid" id="services-grid">
+                    </div>
+                </div>
+
+                <div id="models-page" class="page">
+                    <div class="page-header">
+                        <h2>数据模型管理</h2>
+                        <button class="btn btn-primary" id="add-model-btn">
+                            <i class="fas fa-plus"></i> 添加模型
+                        </button>
+                    </div>
+                    <div class="models-container" id="models-container">
+                    </div>
+                </div>
+
+                <div id="api-page" class="page">
+                    <div class="page-header">
+                        <h2>接口配置</h2>
+                        <button class="btn btn-primary" id="add-api-btn">
+                            <i class="fas fa-plus"></i> 添加接口
+                        </button>
+                    </div>
+                    <div class="api-config-container" id="api-config-container">
+                    </div>
+                </div>
+
+                <div id="permissions-page" class="page">
+                    <div class="page-header">
+                        <h2>权限管理</h2>
+                        <button class="btn btn-primary" id="add-role-btn">
+                            <i class="fas fa-plus"></i> 添加角色
+                        </button>
+                    </div>
+                    <div class="permissions-container" id="permissions-container">
+                    </div>
+                </div>
+
+                <div id="monitoring-page" class="page">
+                    <div class="page-header">
+                        <h2>实时监控</h2>
+                        <div class="monitoring-controls">
+                            <button class="btn btn-primary" id="start-monitoring">
+                                <i class="fas fa-play"></i> 开始监控
+                            </button>
+                            <button class="btn btn-warning" id="stop-monitoring">
+                                <i class="fas fa-stop"></i> 停止监控
+                            </button>
+                        </div>
+                    </div>
+                    <div class="monitoring-grid">
+                        <div class="monitor-card">
+                            <h3><i class="fas fa-microchip"></i> CPU使用率</h3>
+                            <div class="monitor-value" id="cpu-usage">0%</div>
+                            <canvas id="cpuChart"></canvas>
+                        </div>
+                        <div class="monitor-card">
+                            <h3><i class="fas fa-memory"></i> 内存使用率</h3>
+                            <div class="monitor-value" id="memory-usage-percent">0%</div>
+                            <canvas id="memoryChart"></canvas>
+                        </div>
+                        <div class="monitor-card">
+                            <h3><i class="fas fa-network-wired"></i> 网络流量</h3>
+                            <div class="monitor-value" id="network-usage">0 KB/s</div>
+                            <canvas id="networkChart"></canvas>
+                        </div>
+                        <div class="monitor-card">
+                            <h3><i class="fas fa-database"></i> 数据库查询</h3>
+                            <div class="monitor-value" id="db-queries">0</div>
+                            <canvas id="dbChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="logs-page" class="page">
+                    <div class="page-header">
+                        <h2>日志查看</h2>
+                        <div class="log-controls">
+                            <select id="log-level" class="form-control">
+                                <option value="all">所有级别</option>
+                                <option value="error">错误</option>
+                                <option value="warn">警告</option>
+                                <option value="info">信息</option>
+                                <option value="debug">调试</option>
+                            </select>
+                            <button class="btn btn-primary" id="refresh-logs">
+                                <i class="fas fa-sync-alt"></i> 刷新
+                            </button>
+                            <button class="btn btn-success" id="download-logs">
+                                <i class="fas fa-download"></i> 下载
+                            </button>
+                        </div>
+                    </div>
+                    <div class="logs-container" id="logs-container">
+                    </div>
+                </div>
+
+                <div id="settings-page" class="page">
+                    <div class="page-header">
+                        <h2>系统设置</h2>
+                        <button class="btn btn-success" id="save-settings">
+                            <i class="fas fa-save"></i> 保存设置
+                        </button>
+                    </div>
+                    <div class="settings-container">
+                        <div class="settings-section">
+                            <h3>基本设置</h3>
+                            <div class="form-group">
+                                <label>系统名称</label>
+                                <input type="text" class="form-control" value="苏顺植保系统">
+                            </div>
+                            <div class="form-group">
+                                <label>监听端口</label>
+                                <input type="number" class="form-control" value="3000">
+                            </div>
+                            <div class="form-group">
+                                <label>环境模式</label>
+                                <select class="form-control">
+                                    <option value="production" selected>生产环境</option>
+                                    <option value="development">开发环境</option>
+                                    <option value="test">测试环境</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="settings-section">
+                            <h3>性能设置</h3>
+                            <div class="form-group">
+                                <label>最大连接数</label>
+                                <input type="number" class="form-control" value="1000">
+                            </div>
+                            <div class="form-group">
+                                <label>请求超时 (秒)</label>
+                                <input type="number" class="form-control" value="30">
+                            </div>
+                            <div class="form-group">
+                                <label>速率限制 (请求/分钟)</label>
+                                <input type="number" class="form-control" value="100">
+                            </div>
+                        </div>
+                        <div class="settings-section">
+                            <h3>日志设置</h3>
+                            <div class="form-group">
+                                <label>日志级别</label>
+                                <select class="form-control">
+                                    <option value="error">错误</option>
+                                    <option value="warn">警告</option>
+                                    <option value="info" selected>信息</option>
+                                    <option value="debug">调试</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>日志保留天数</label>
+                                <input type="number" class="form-control" value="14">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -42,3 +42,18 @@ $RECYCLE.BIN/
 # 图片缩略图（如果有）
 *.thumb.jpg
 *.thumb.png
+
+# PM2
+.pm2/
+
+# 上传文件
+uploads/
+
+# 数据库文件
+*.sql
+*.sqlite
+*.db
+
+# 备份文件
+*.bak
+*.backup

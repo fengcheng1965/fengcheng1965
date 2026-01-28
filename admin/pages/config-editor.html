@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>接口配置编辑器 - 拖拽式配置</title>
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="css/config-editor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="config-editor-container">
+        <div class="editor-header">
+            <h1><i class="fas fa-plug"></i> 接口配置编辑器</h1>
+            <div class="editor-actions">
+                <button class="btn btn-primary" id="save-config">
+                    <i class="fas fa-save"></i> 保存配置
+                </button>
+                <button class="btn btn-success" id="preview-config">
+                    <i class="fas fa-eye"></i> 实时预览
+                </button>
+                <button class="btn btn-warning" id="validate-config">
+                    <i class="fas fa-check-circle"></i> 验证配置
+                </button>
+                <button class="btn btn-danger" id="reset-config">
+                    <i class="fas fa-undo"></i> 重置
+                </button>
+            </div>
+        </div>
+
+        <div class="editor-content">
+            <div class="sidebar-panel">
+                <div class="panel-section">
+                    <h3><i class="fas fa-cubes"></i> 组件库</h3>
+                    <div class="component-library">
+                        <div class="component-item" draggable="true" data-type="endpoint">
+                            <i class="fas fa-route"></i>
+                            <span>接口端点</span>
+                        </div>
+                        <div class="component-item" draggable="true" data-type="auth">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>认证中间件</span>
+                        </div>
+                        <div class="component-item" draggable="true" data-type="validator">
+                            <i class="fas fa-check-double"></i>
+                            <span>数据验证</span>
+                        </div>
+                        <div class="component-item" draggable="true" data-type="logger">
+                            <i class="fas fa-file-alt"></i>
+                            <span>日志记录</span>
+                        </div>
+                        <div class="component-item" draggable="true" data-type="cache">
+                            <i class="fas fa-bolt"></i>
+                            <span>缓存控制</span>
+                        </div>
+                        <div class="component-item" draggable="true" data-type="rate-limit">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>速率限制</span>
+                        </div>
+                        <div class="component-item" draggable="true" data-type="cors">
+                            <i class="fas fa-globe"></i>
+                            <span>CORS配置</span>
+                        </div>
+                        <div class="component-item" draggable="true" data-type="error-handler">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>错误处理</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-history"></i> 历史版本</h3>
+                    <div class="version-list">
+                        <div class="version-item" data-version="v1.0">
+                            <span>v1.0</span>
+                            <button class="btn-small btn-primary">恢复</button>
+                        </div>
+                        <div class="version-item" data-version="v0.9">
+                            <span>v0.9</span>
+                            <button class="btn-small btn-primary">恢复</button>
+                        </div>
+                        <div class="version-item" data-version="v0.8">
+                            <span>v0.8</span>
+                            <button class="btn-small btn-primary">恢复</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-area">
+                <div class="canvas-toolbar">
+                    <button class="btn btn-small btn-primary" id="zoom-in">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button class="btn btn-small btn-primary" id="zoom-out">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <button class="btn btn-small btn-warning" id="fit-canvas">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                    <button class="btn btn-small btn-success" id="auto-layout">
+                        <i class="fas fa-magic"></i> 自动布局
+                    </button>
+                </div>
+                <div class="config-canvas" id="config-canvas">
+                    <div class="canvas-grid"></div>
+                    <div class="canvas-content" id="canvas-content">
+                        <div class="node endpoint-node" id="node-1" data-type="endpoint">
+                            <div class="node-header">
+                                <i class="fas fa-route"></i>
+                                <span>GET /api/products</span>
+                                <button class="node-delete"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-info">
+                                    <span>方法: GET</span>
+                                    <span>路径: /api/products</span>
+                                </div>
+                                <div class="node-ports">
+                                    <div class="port port-input" data-port="in">输入</div>
+                                    <div class="port port-output" data-port="out">输出</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="node auth-node" id="node-2" data-type="auth">
+                            <div class="node-header">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>JWT认证</span>
+                                <button class="node-delete"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-info">
+                                    <span>类型: Bearer Token</span>
+                                    <span>密钥: JWT_SECRET</span>
+                                </div>
+                                <div class="node-ports">
+                                    <div class="port port-input" data-port="in">输入</div>
+                                    <div class="port port-output" data-port="out">输出</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="node validator-node" id="node-3" data-type="validator">
+                            <div class="node-header">
+                                <i class="fas fa-check-double"></i>
+                                <span>数据验证</span>
+                                <button class="node-delete"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-info">
+                                    <span>规则: Joi Schema</span>
+                                    <span>严格模式: 是</span>
+                                </div>
+                                <div class="node-ports">
+                                    <div class="port port-input" data-port="in">输入</div>
+                                    <div class="port port-output" data-port="out">输出</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="node logger-node" id="node-4" data-type="logger">
+                            <div class="node-header">
+                                <i class="fas fa-file-alt"></i>
+                                <span>请求日志</span>
+                                <button class="node-delete"><i class="fas fa-times"></i></button>
+                            </div>
+                            <div class="node-body">
+                                <div class="node-info">
+                                    <span>级别: INFO</span>
+                                    <span>格式: JSON</span>
+                                </div>
+                                <div class="node-ports">
+                                    <div class="port port-input" data-port="in">输入</div>
+                                    <div class="port port-output" data-port="out">输出</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="properties-panel">
+                <div class="panel-section">
+                    <h3><i class="fas fa-sliders-h"></i> 属性配置</h3>
+                    <div class="properties-form" id="properties-form">
+                        <p class="no-selection">请选择一个节点以编辑属性</p>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-code"></i> 代码预览</h3>
+                    <div class="code-preview" id="code-preview">
+                        <pre><code>// 选择节点以查看生成的代码</code></pre>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3><i class="fas fa-list-check"></i> 配置验证</h3>
+                    <div class="validation-results" id="validation-results">
+                        <div class="validation-item success">
+                            <i class="fas fa-check-circle"></i>
+                            <span>所有节点连接正常</span>
+                        </div>
+                        <div class="validation-item success">
+                            <i class="fas fa-check-circle"></i>
+                            <span>端口配置有效</span>
+                        </div>
+                        <div class="validation-item warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>建议添加错误处理节点</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="node-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">节点配置</h2>
+                <button class="modal-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="modal-save">保存</button>
+                <button class="btn btn-secondary" id="modal-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsplumb@2.15.6/dist/js/jsplumb.min.js"></script>
+    <script src="../js/admin.js"></script>
+    <script src="js/config-editor.js"></script>
+</body>
+</html>

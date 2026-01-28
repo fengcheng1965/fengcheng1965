@@ -1,0 +1,11 @@
+const express = require('express');
+const router = express.Router();
+const customerController = require('../controllers/customerController');
+const { authenticateToken, requireStaff } = require('../middleware/auth');
+router.use(authenticateToken);
+router.get('/', requireStaff, customerController.getCustomers);
+router.get('/:id', requireStaff, customerController.getCustomerById);
+router.post('/', requireStaff, customerController.createCustomer);
+router.put('/:id', requireStaff, customerController.updateCustomer);
+router.delete('/:id', requireStaff, customerController.deleteCustomer);
+module.exports = router;
