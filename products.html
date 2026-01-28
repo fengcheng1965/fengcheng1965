@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品中心 - 苏顺植保</title>
+    <meta name="description" content="苏顺植保产品中心，提供优质农药产品，包括杀虫剂、杀菌剂、除草剂等">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <i class="fas fa-leaf"></i>
+                <span>苏顺植保</span>
+            </div>
+            <ul class="navbar-menu" id="navbarMenu">
+                <li><a href="index.html" class="nav-link">首页</a></li>
+                <li><a href="products.html" class="nav-link active">产品中心</a></li>
+                <li><a href="services.html" class="nav-link">服务项目</a></li>
+                <li><a href="about.html" class="nav-link">关于我们</a></li>
+                <li><a href="contact.html" class="nav-link">联系我们</a></li>
+            </ul>
+            <div class="navbar-actions">
+                <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                <button class="cart-btn" id="cartBtn"><i class="fas fa-shopping-cart"></i><span class="badge" id="cartBadge">0</span></button>
+                <button class="navbar-toggle" id="navbarToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="搜索产品..." id="searchInput">
+            <button class="search-close" id="searchClose"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> / <span>产品中心</span>
+            </div>
+            <h1 class="page-title">产品中心</h1>
+            <p class="page-description">浏览我们的优质植保产品，为您的农作物提供全方位保护</p>
+        </div>
+    </section>
+
+    <section class="products-page">
+        <div class="container">
+            <div class="products-layout">
+                <aside class="sidebar" id="sidebar">
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">产品分类</h3>
+                        <ul class="category-list">
+                            <li class="category-item active" data-category="all">
+                                <i class="fas fa-th-large"></i>
+                                <span>全部产品</span>
+                                <span class="count">12</span>
+                            </li>
+                            <li class="category-item" data-category="insecticide">
+                                <i class="fas fa-bug"></i>
+                                <span>杀虫剂</span>
+                                <span class="count">4</span>
+                            </li>
+                            <li class="category-item" data-category="fungicide">
+                                <i class="fas fa-virus"></i>
+                                <span>杀菌剂</span>
+                                <span class="count">3</span>
+                            </li>
+                            <li class="category-item" data-category="herbicide">
+                                <i class="fas fa-leaf"></i>
+                                <span>除草剂</span>
+                                <span class="count">3</span>
+                            </li>
+                            <li class="category-item" data-category="regulator">
+                                <i class="fas fa-dna"></i>
+                                <span>生长调节剂</span>
+                                <span class="count">2</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">价格区间</h3>
+                        <div class="price-range">
+                            <input type="range" id="priceMin" min="0" max="500" value="0">
+                            <input type="range" id="priceMax" min="0" max="500" value="500">
+                            <div class="price-display">
+                                <span>¥<span id="priceMinValue">0</span></span>
+                                <span>—</span>
+                                <span>¥<span id="priceMaxValue">500</span></span>
+                            </div>
+                            <button class="btn btn-secondary btn-sm btn-block" id="priceFilterBtn">筛选</button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title">品牌</h3>
+                        <div class="brand-list">
+                            <label class="checkbox-item">
+                                <input type="checkbox" value="brand1">
+                                <span class="checkmark"></span>
+                                <span>苏顺植保</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" value="brand2">
+                                <span class="checkmark"></span>
+                                <span>知名品牌</span>
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" value="brand3">
+                                <span class="checkmark"></span>
+                                <span>进口品牌</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-sliders-h"></i> 筛选
+                    </button>
+                </aside>
+
+                <main class="main-content">
+                    <div class="products-header">
+                        <div class="products-count">
+                            <span>共 <strong id="productCount">12</strong> 件产品</span>
+                        </div>
+                        <div class="products-sort">
+                            <label>排序：</label>
+                            <select class="sort-select" id="sortSelect">
+                                <option value="default">默认排序</option>
+                                <option value="price-asc">价格从低到高</option>
+                                <option value="price-desc">价格从高到低</option>
+                                <option value="sales">销量优先</option>
+                                <option value="newest">最新上架</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="products-grid" id="productsGrid">
+                        <article class="product-card" data-category="insecticide" data-price="88" data-brand="brand1">
+                            <div class="product-image">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23A5D6A7' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%2343A047' font-size='48' font-family='Arial'%3E🐛%3C/text%3E%3C/svg%3E" alt="高效杀虫剂">
+                                <span class="badge badge-hot">热销</span>
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-title">高效杀虫剂</h3>
+                                <p class="product-description">针对多种害虫，效果显著，持效期长</p>
+                                <div class="product-rating">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span class="rating-count">(128)</span>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="price-box">
+                                        <span class="product-price">¥88.00</span>
+                                        <span class="product-price-old">¥108.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn btn-secondary btn-sm" onclick="addToCart('高效杀虫剂', 88)">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" onclick="quickView('高效杀虫剂')">
+                                            查看
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="product-card" data-category="fungicide" data-price="128" data-brand="brand1">
+                            <div class="product-image">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23A5D6A7' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%2343A047' font-size='48' font-family='Arial'%3E🦠%3C/text%3E%3C/svg%3E" alt="杀菌剂">
+                                <span class="badge badge-new">新品</span>
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-title">杀菌剂</h3>
+                                <p class="product-description">有效防治真菌病害，保护作物健康</p>
+                                <div class="product-rating">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span class="rating-count">(86)</span>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="price-box">
+                                        <span class="product-price">¥128.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn btn-secondary btn-sm" onclick="addToCart('杀菌剂', 128)">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" onclick="quickView('杀菌剂')">
+                                            查看
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="product-card" data-category="herbicide" data-price="68" data-brand="brand2">
+                            <div class="product-image">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23A5D6A7' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%2343A047' font-size='48' font-family='Arial'%3E🌿%3C/text%3E%3C/svg%3E" alt="除草剂">
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-title">除草剂</h3>
+                                <p class="product-description">高效除草，对作物安全，使用方便</p>
+                                <div class="product-rating">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="rating-count">(256)</span>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="price-box">
+                                        <span class="product-price">¥68.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn btn-secondary btn-sm" onclick="addToCart('除草剂', 68)">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" onclick="quickView('除草剂')">
+                                            查看
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="product-card" data-category="regulator" data-price="98" data-brand="brand1">
+                            <div class="product-image">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23A5D6A7' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%2343A047' font-size='48' font-family='Arial'%3E🌱%3C/text%3E%3C/svg%3E" alt="植物生长调节剂">
+                                <span class="badge badge-sale">促销</span>
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-title">植物生长调节剂</h3>
+                                <p class="product-description">调节作物生长，提高产量和品质</p>
+                                <div class="product-rating">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span class="rating-count">(67)</span>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="price-box">
+                                        <span class="product-price">¥98.00</span>
+                                        <span class="product-price-old">¥128.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn btn-secondary btn-sm" onclick="addToCart('植物生长调节剂', 98)">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" onclick="quickView('植物生长调节剂')">
+                                            查看
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="product-card" data-category="insecticide" data-price="156" data-brand="brand3">
+                            <div class="product-image">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23A5D6A7' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%2343A047' font-size='48' font-family='Arial'%3E🪲%3C/text%3E%3C/svg%3E" alt="进口杀虫剂">
+                                <span class="badge badge-primary">进口</span>
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-title">进口杀虫剂</h3>
+                                <p class="product-description">进口原料，效果显著，安全可靠</p>
+                                <div class="product-rating">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="rating-count">(189)</span>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="price-box">
+                                        <span class="product-price">¥156.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn btn-secondary btn-sm" onclick="addToCart('进口杀虫剂', 156)">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" onclick="quickView('进口杀虫剂')">
+                                            查看
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="product-card" data-category="fungicide" data-price="188" data-brand="brand2">
+                            <div class="product-image">
+                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23A5D6A7' width='200' height='200'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='%2343A047' font-size='48' font-family='Arial'%3E🦠%3C/text%3E%3C/svg%3E" alt="高级杀菌剂">
+                            </div>
+                            <div class="product-body">
+                                <h3 class="product-title">高级杀菌剂</h3>
+                                <p class="product-description">广谱杀菌，预防治疗双重功效</p>
+                                <div class="product-rating">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span class="rating-count">(134)</span>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="price-box">
+                                        <span class="product-price">¥188.00</span>
+                                    </div>
+                                    <div class="product-actions">
+                                        <button class="btn btn-secondary btn-sm" onclick="addToCart('高级杀菌剂', 188)">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" onclick="quickView('高级杀菌剂')">
+                                            查看
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="pagination">
+                        <button class="pagination-btn" id="prevPage" disabled>
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <div class="pagination-pages">
+                            <button class="pagination-page active" data-page="1">1</button>
+                            <button class="pagination-page" data-page="2">2</button>
+                        </div>
+                        <button class="pagination-btn" id="nextPage">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>苏顺植保</h3>
+                    <p>专业的农业植保服务提供商，守护绿色农业，助力丰收。</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="products.html">产品中心</a></li>
+                        <li><a href="services.html">服务项目</a></li>
+                        <li><a href="about.html">关于我们</a></li>
+                        <li><a href="contact.html">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系方式</h4>
+                    <p><i class="fas fa-phone"></i> 400-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> contact@sushunzb.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 江苏省南京市农业科技园区88号</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 苏顺植保. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal" id="quickViewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>产品快速预览</h3>
+                <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <p>产品详情内容...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/products.js"></script>
+</body>
+</html>
