@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API集成测试 - 苏顺植保</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #43A047;
+            margin-bottom: 20px;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        .success {
+            background: #e8f5e9;
+            border: 1px solid #43A047;
+            color: #2e7d32;
+        }
+        .error {
+            background: #ffebee;
+            border: 1px solid #F44336;
+            color: #c62828;
+        }
+        .info {
+            background: #e3f2fd;
+            border: 1px solid #1976D2;
+            color: #1565c0;
+        }
+        button {
+            background: #43A047;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button:hover {
+            background: #388e3c;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #43A047;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #43A047;
+        }
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 苏顺植保 - 前后端集成测试</h1>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalTests">0</div>
+                <div class="stat-label">总测试数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="passedTests">0</div>
+                <div class="stat-label">通过</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="failedTests">0</div>
+                <div class="stat-label">失败</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="successRate">0%</div>
+                <div class="stat-label">成功率</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-title">1. 后端健康检查</h2>
+            <button onclick="testHealthCheck()">测试健康检查</button>
+            <div id="healthResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-title">2. 获取产品列表</h2>
+            <button onclick="testGetProducts()">获取所有产品</button>
+            <button onclick="testGetProductById()">获取单个产品</button>
+            <div id="productsResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-title">3. 用户认证测试</h2>
+            <button onclick="testLogin()">测试登录</button>
+            <button onclick="testRegister()">测试注册</button>
+            <div id="authResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-title">4. 留言功能测试</h2>
+            <button onclick="testCreateMessage()">创建留言</button>
+            <button onclick="testGetMessages()">获取留言列表</button>
+            <div id="messageResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-title">5. 客户管理测试</h2>
+            <button onclick="testGetCustomers()">获取客户列表</button>
+            <button onclick="testCreateCustomer()">创建客户</button>
+            <div id="customerResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h2 class="test-title">6. 运行所有测试</h2>
+            <button onclick="runAllTests()">🚀 运行全部测试</button>
+            <div id="allTestsResult"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:3000/api';
+        let testStats = {
+            total: 0,
+            passed: 0,
+            failed: 0
+        };
+
+        function updateStats() {
+            document.getElementById('totalTests').textContent = testStats.total;
+            document.getElementById('passedTests').textContent = testStats.passed;
+            document.getElementById('failedTests').textContent = testStats.failed;
+            const rate = testStats.total > 0 ? ((testStats.passed / testStats.total) * 100).toFixed(1) : 0;
+            document.getElementById('successRate').textContent = rate + '%';
+        }
+
+        function showResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="test-result ${type}">${message}</div>`;
+        }
+
+        async function testHealthCheck() {
+            testStats.total++;
+            showResult('healthResult', '正在测试...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                const data = await response.json();
+                
+                if (data.success && data.status === 'healthy') {
+                    testStats.passed++;
+                    showResult('healthResult', `✅ 健康检查通过\n${JSON.stringify(data, null, 2)}`, 'success');
+                } else {
+                    testStats.failed++;
+                    showResult('healthResult', `❌ 健康检查失败\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                testStats.failed++;
+                showResult('healthResult', `❌ 请求失败: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        async function testGetProducts() {
+            testStats.total++;
+            showResult('productsResult', '正在获取产品列表...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/products`);
+                const data = await response.json();
+                
+                if (data.success && Array.isArray(data.data)) {
+                    testStats.passed++;
+                    showResult('productsResult', `✅ 成功获取 ${data.data.length} 个产品\n${JSON.stringify(data, null, 2)}`, 'success');
+                } else {
+                    testStats.failed++;
+                    showResult('productsResult', `❌ 获取产品失败\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                testStats.failed++;
+                showResult('productsResult', `❌ 请求失败: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        async function testGetProductById() {
+            testStats.total++;
+            showResult('productsResult', '正在获取产品详情...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/products/1`);
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    testStats.passed++;
+                    showResult('productsResult', `✅ 成功获取产品详情\n产品名称: ${data.data.name}\n价格: ¥${data.data.price}\n${JSON.stringify(data.data, null, 2)}`, 'success');
+                } else {
+                    testStats.failed++;
+                    showResult('productsResult', `❌ 获取产品详情失败\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                testStats.failed++;
+                showResult('productsResult', `❌ 请求失败: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        async function testLogin() {
+            testStats.total++;
+            showResult('authResult', '正在测试登录...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: 'admin',
+                        password: 'admin123'
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.success && data.data.token) {
+                    testStats.passed++;
+                    showResult('authResult', `✅ 登录成功\n用户: ${data.data.user.username}\n角色: ${data.data.user.role}\nToken: ${data.data.token.substring(0, 20)}...`, 'success');
+                } else {
+                    testStats.failed++;
+                    showResult('authResult', `❌ 登录失败\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                testStats.failed++;
+                showResult('authResult', `❌ 请求失败: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        async function testRegister() {
+            testStats.total++;
+            showResult('authResult', '正在测试注册...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: `testuser_${Date.now()}`,
+                        password: 'test123',
+                        email: `test${Date.now()}@example.com`,
+                        role: 'staff'
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    testStats.passed++;
+                    showResult('authResult', `✅ 注册成功\n${JSON.stringify(data, null, 2)}`, 'success');
+                } else {
+                    testStats.failed++;
+                    showResult('authResult', `❌ 注册失败\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                testStats.failed++;
+                showResult('authResult', `❌ 请求失败: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        async function testCreateMessage() {
+            testStats.total++;
+            showResult('messageResult', '正在创建留言...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: '测试用户',
+                        email: 'test@example.com',
+                        phone: '13800138000',
+                        subject: '测试留言',
+                        content: '这是一条测试留言'
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    testStats.passed++;
+                    showResult('messageResult', `✅ 留言创建成功\n${JSON.stringify(data, null, 2)}`, 'success');
+                } else {
+                    testStats.failed++;
+                    showResult('messageResult', `❌ 留言创建失败\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                testStats.failed++;
+                showResult('messageResult', `❌ 请求失败: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        async function testGetMessages() {
+            testStats.total++;
+            showResult('messageResult', '正在获取留言列表...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/messages`);
+                const data = await response.json();
+                
+                if (data.success && Array.isArray(data.data)) {
+                    testStats.passed++;
+                    showResult('messageResult', `✅ 成功获取 ${data.data.length} 条留言\n${JSON.stringify(data, null, 2)}`, 'success');
+                } else {
+                    testStats.failed++;
+                    showResult('messageResult', `❌ 获取留言失败\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                testStats.failed++;
+                showResult('messageResult', `❌ 请求失败: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        async function testGetCustomers() {
+            testStats.total++;
+            showResult('customerResult', '正在获取客户列表...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/customers`);
+                const data = await response.json();
+                
+                if (data.success && Array.isArray(data.data)) {
+                    testStats.passed++;
+                    showResult('customerResult', `✅ 成功获取 ${data.data.length} 个客户\n${JSON.stringify(data, null, 2)}`, 'success');
+                } else {
+                    testStats.failed++;
+                    showResult('customerResult', `❌ 获取客户失败\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                testStats.failed++;
+                showResult('customerResult', `❌ 请求失败: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        async function testCreateCustomer() {
+            testStats.total++;
+            showResult('customerResult', '正在创建客户...', 'info');
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/customers`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: '测试客户',
+                        email: `customer${Date.now()}@example.com`,
+                        phone: '13800138000',
+                        address: '测试地址'
+                    })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    testStats.passed++;
+                    showResult('customerResult', `✅ 客户创建成功\n${JSON.stringify(data, null, 2)}`, 'success');
+                } else {
+                    testStats.failed++;
+                    showResult('customerResult', `❌ 客户创建失败\n${JSON.stringify(data, null, 2)}`, 'error');
+                }
+            } catch (error) {
+                testStats.failed++;
+                showResult('customerResult', `❌ 请求失败: ${error.message}`, 'error');
+            }
+            
+            updateStats();
+        }
+
+        async function runAllTests() {
+            testStats = { total: 0, passed: 0, failed: 0 };
+            updateStats();
+            
+            showResult('allTestsResult', '🚀 开始运行所有测试...\n\n', 'info');
+            
+            await testHealthCheck();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testGetProducts();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testGetProductById();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testLogin();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testCreateMessage();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testGetMessages();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            await testGetCustomers();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            const rate = ((testStats.passed / testStats.total) * 100).toFixed(1);
+            const summary = `
+🎉 所有测试完成！
+
+测试统计:
+- 总测试数: ${testStats.total}
+- 通过: ${testStats.passed}
+- 失败: ${testStats.failed}
+- 成功率: ${rate}%
+
+${rate >= 80 ? '✅ 集成测试通过！' : '⚠️ 部分测试失败，请检查'}
+            `;
+            
+            showResult('allTestsResult', summary, rate >= 80 ? 'success' : 'error');
+        }
+    </script>
+</body>
+</html>
