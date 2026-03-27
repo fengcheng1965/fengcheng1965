@@ -1,0 +1,500 @@
+
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>农药相关公众号文章分析报告</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            body {
+                font-family: 'Microsoft YaHei', Arial, sans-serif;
+                background-color: #f5f5f5;
+                color: #333;
+                line-height: 1.6;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            
+            header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 40px 0;
+                text-align: center;
+                border-radius: 10px;
+                margin-bottom: 30px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+                margin-bottom: 10px;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+                opacity: 0.9;
+            }
+            
+            .stats {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 20px;
+                margin-bottom: 30px;
+            }
+            
+            .stat-card {
+                background: white;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                text-align: center;
+                transition: transform 0.3s ease;
+            }
+            
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+                font-weight: bold;
+                color: #667eea;
+                margin-bottom: 5px;
+            }
+            
+            .stat-label {
+                font-size: 1rem;
+                color: #666;
+            }
+            
+            .articles-section {
+                background: white;
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+                margin-bottom: 30px;
+            }
+            
+            h2 {
+                color: #333;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+                border-bottom: 2px solid #667eea;
+            }
+            
+            .article-card {
+                border: 1px solid #e0e0e0;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 15px;
+                transition: all 0.3s ease;
+            }
+            
+            .article-card:hover {
+                border-color: #667eea;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            }
+            
+            .article-title {
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 10px;
+            }
+            
+            .article-meta {
+                font-size: 0.9rem;
+                color: #666;
+                margin-bottom: 10px;
+            }
+            
+            .article-score {
+                display: inline-block;
+                background: #667eea;
+                color: white;
+                padding: 5px 15px;
+                border-radius: 20px;
+                font-size: 0.9rem;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            
+            .article-topics {
+                margin-top: 10px;
+            }
+            
+            .topic-tag {
+                display: inline-block;
+                background: #f0f0f0;
+                padding: 3px 10px;
+                border-radius: 15px;
+                font-size: 0.8rem;
+                margin-right: 8px;
+                margin-bottom: 8px;
+            }
+            
+            .topic-tag.relevant {
+                background: #e3f2fd;
+                color: #1976d2;
+            }
+            
+            .footer {
+                text-align: center;
+                padding: 20px;
+                color: #666;
+                font-size: 0.9rem;
+            }
+            
+            @media (max-width: 768px) {
+                .container {
+                    padding: 10px;
+                }
+                
+                header {
+                    padding: 30px 0;
+                }
+                
+                h1 {
+                    font-size: 2rem;
+                }
+                
+                .stats {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>农药相关公众号文章分析报告</h1>
+                <p class="subtitle">生成时间: 2026-03-27 08:52:06
+</p>
+            </header>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">8
+</div>
+                    <div class="stat-label">总文章数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5
+</div>
+                    <div class="stat-label">高评分文章</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">8
+</div>
+                    <div class="stat-label">畅销品排名</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4
+</div>
+                    <div class="stat-label">产品评价</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1
+</div>
+                    <div class="stat-label">协同增效</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4
+</div>
+                    <div class="stat-label">技术实践</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5
+</div>
+                    <div class="stat-label">政策法规</div>
+                </div>
+            </div>
+            
+            <div class="articles-section">
+                <h2>高评分文章</h2>
+    
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNTY1NjM4MQ==&mid=2247489082&idx=1&sn=f78dd941ae08469a11e1e6d0773979e1&chksm=990428#rd" target="_blank">从海洛因到“蜜蜂杀手”：拜耳公司百年毒史与环境战争</a></div>
+                    <div class="article-meta">
+                        公众号: 希言社 | 发布时间: 2026-03-22 06:31:00 | 阅读: 1476 | 点赞: 210
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                    <div class="article-topics">
+                        <span class="topic-tag relevant">畅销品排名</span><span class="topic-tag relevant">产品评价</span><span class="topic-tag">协同增效</span><span class="topic-tag relevant">技术实践</span><span class="topic-tag relevant">政策法规</span>
+                    </div>
+                </div>
+        
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=Mzg5ODIxMjk3Mw==&mid=2247621696&idx=1&sn=7fbb1289c185317fbb84eabf0deee74e&chksm=900652#rd" target="_blank">畅销20年经久不衰！拜耳这款经典杀菌剂再创辉煌</a></div>
+                    <div class="article-meta">
+                        公众号: 农药资讯网 | 发布时间: 2026-03-20 08:54:00 | 阅读: 1284 | 点赞: 12
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                    <div class="article-topics">
+                        <span class="topic-tag relevant">畅销品排名</span><span class="topic-tag relevant">产品评价</span><span class="topic-tag relevant">协同增效</span><span class="topic-tag relevant">技术实践</span><span class="topic-tag relevant">政策法规</span>
+                    </div>
+                </div>
+        
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTc1NTg0Mg==&mid=2649520220&idx=1&sn=24f4e23cfe71c0c8f988dbc5eb30ac9c&chksm=644110#rd" target="_blank">张雪峰去世，把我搞应激了</a></div>
+                    <div class="article-meta">
+                        公众号: 晏凌羊 | 发布时间: 2026-03-24 22:57:00 | 阅读: 19971 | 点赞: 389
+                    </div>
+                    <div class="article-score">评分: 75/100</div>
+                    <div class="article-topics">
+                        <span class="topic-tag relevant">畅销品排名</span><span class="topic-tag relevant">产品评价</span><span class="topic-tag">协同增效</span><span class="topic-tag">技术实践</span><span class="topic-tag">政策法规</span>
+                    </div>
+                </div>
+        
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=Mzg2ODAwMjUzMg==&mid=2247658191&idx=1&sn=cbec4afc9af37c54a4d97efd4920907a&chksm=885926#rd" target="_blank">讲述∶把儿子放在农村婆婆家，一年后却没了踪影......</a></div>
+                    <div class="article-meta">
+                        公众号: 晚情的休闲时光 | 发布时间: 2026-03-26 19:28:09 | 阅读: 3365 | 点赞: 35
+                    </div>
+                    <div class="article-score">评分: 70/100</div>
+                    <div class="article-topics">
+                        <span class="topic-tag relevant">畅销品排名</span><span class="topic-tag">产品评价</span><span class="topic-tag">协同增效</span><span class="topic-tag relevant">技术实践</span><span class="topic-tag">政策法规</span>
+                    </div>
+                </div>
+        
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzA5MTA2MTY5Ng==&mid=2651400709&idx=2&sn=64dd5d5b574c381b3d69045140d9cadd&chksm=792810#rd" target="_blank">3人非法销售被抓！紧急提醒：这种螺别买、别吃！</a></div>
+                    <div class="article-meta">
+                        公众号: 广州普法 | 发布时间: 2026-03-26 17:58:17 | 阅读: 2697 | 点赞: 21
+                    </div>
+                    <div class="article-score">评分: 70/100</div>
+                    <div class="article-topics">
+                        <span class="topic-tag relevant">畅销品排名</span><span class="topic-tag">产品评价</span><span class="topic-tag">协同增效</span><span class="topic-tag">技术实践</span><span class="topic-tag relevant">政策法规</span>
+                    </div>
+                </div>
+        
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzIxMjAyODM0MQ==&mid=2650480551&idx=1&sn=241249d5b40a0d1545c74084aa21e882&chksm=652884#rd" target="_blank">3人被抓！紧急提醒：这种螺，别买、别吃！</a></div>
+                    <div class="article-meta">
+                        公众号: 广东普法 | 发布时间: 2026-03-26 07:46:05 | 阅读: 5256 | 点赞: 22
+                    </div>
+                    <div class="article-score">评分: 65/100</div>
+                    <div class="article-topics">
+                        <span class="topic-tag relevant">畅销品排名</span><span class="topic-tag">产品评价</span><span class="topic-tag">协同增效</span><span class="topic-tag">技术实践</span><span class="topic-tag relevant">政策法规</span>
+                    </div>
+                </div>
+        
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzU5NzAyMzEwMg==&mid=2247650541&idx=2&sn=6c9d7bb531fe7f4fb0de4bc303c8e68e&chksm=120686#rd" target="_blank">重看这片，才懂刘震云没说透的话</a></div>
+                    <div class="article-meta">
+                        公众号: 四味毒叔 | 发布时间: 2026-03-26 19:48:28 | 阅读: 491 | 点赞: 1
+                    </div>
+                    <div class="article-score">评分: 60/100</div>
+                    <div class="article-topics">
+                        <span class="topic-tag relevant">畅销品排名</span><span class="topic-tag relevant">产品评价</span><span class="topic-tag">协同增效</span><span class="topic-tag">技术实践</span><span class="topic-tag">政策法规</span>
+                    </div>
+                </div>
+        
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzI1MzY3NTMzMQ==&mid=2247531686&idx=1&sn=0ad22f3952cc7717e99ed7b0a4bafde5&chksm=185286#rd" target="_blank">《潍坊民企之声》天一化学：科创赋能化工新篇</a></div>
+                    <div class="article-meta">
+                        公众号: 潍坊工商联 | 发布时间: 2026-03-20 09:51:20 | 阅读: 480 | 点赞: 9
+                    </div>
+                    <div class="article-score">评分: 60/100</div>
+                    <div class="article-topics">
+                        <span class="topic-tag relevant">畅销品排名</span><span class="topic-tag">产品评价</span><span class="topic-tag">协同增效</span><span class="topic-tag relevant">技术实践</span><span class="topic-tag relevant">政策法规</span>
+                    </div>
+                </div>
+        
+            <div class="articles-section">
+                <h2>农药畅销品排名</h2>
+            
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNTY1NjM4MQ==&mid=2247489082&idx=1&sn=f78dd941ae08469a11e1e6d0773979e1&chksm=990428#rd" target="_blank">从海洛因到“蜜蜂杀手”：拜耳公司百年毒史与环境战争</a></div>
+                    <div class="article-meta">
+                        公众号: 希言社 | 发布时间: 2026-03-22 06:31:00 | 阅读: 1476 | 点赞: 210
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=Mzg5ODIxMjk3Mw==&mid=2247621696&idx=1&sn=7fbb1289c185317fbb84eabf0deee74e&chksm=900652#rd" target="_blank">畅销20年经久不衰！拜耳这款经典杀菌剂再创辉煌</a></div>
+                    <div class="article-meta">
+                        公众号: 农药资讯网 | 发布时间: 2026-03-20 08:54:00 | 阅读: 1284 | 点赞: 12
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTc1NTg0Mg==&mid=2649520220&idx=1&sn=24f4e23cfe71c0c8f988dbc5eb30ac9c&chksm=644110#rd" target="_blank">张雪峰去世，把我搞应激了</a></div>
+                    <div class="article-meta">
+                        公众号: 晏凌羊 | 发布时间: 2026-03-24 22:57:00 | 阅读: 19971 | 点赞: 389
+                    </div>
+                    <div class="article-score">评分: 75/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=Mzg2ODAwMjUzMg==&mid=2247658191&idx=1&sn=cbec4afc9af37c54a4d97efd4920907a&chksm=885926#rd" target="_blank">讲述∶把儿子放在农村婆婆家，一年后却没了踪影......</a></div>
+                    <div class="article-meta">
+                        公众号: 晚情的休闲时光 | 发布时间: 2026-03-26 19:28:09 | 阅读: 3365 | 点赞: 35
+                    </div>
+                    <div class="article-score">评分: 70/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzA5MTA2MTY5Ng==&mid=2651400709&idx=2&sn=64dd5d5b574c381b3d69045140d9cadd&chksm=792810#rd" target="_blank">3人非法销售被抓！紧急提醒：这种螺别买、别吃！</a></div>
+                    <div class="article-meta">
+                        公众号: 广州普法 | 发布时间: 2026-03-26 17:58:17 | 阅读: 2697 | 点赞: 21
+                    </div>
+                    <div class="article-score">评分: 70/100</div>
+                </div>
+                
+            </div>
+            
+            <div class="articles-section">
+                <h2>农药产品评价</h2>
+            
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNTY1NjM4MQ==&mid=2247489082&idx=1&sn=f78dd941ae08469a11e1e6d0773979e1&chksm=990428#rd" target="_blank">从海洛因到“蜜蜂杀手”：拜耳公司百年毒史与环境战争</a></div>
+                    <div class="article-meta">
+                        公众号: 希言社 | 发布时间: 2026-03-22 06:31:00 | 阅读: 1476 | 点赞: 210
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=Mzg5ODIxMjk3Mw==&mid=2247621696&idx=1&sn=7fbb1289c185317fbb84eabf0deee74e&chksm=900652#rd" target="_blank">畅销20年经久不衰！拜耳这款经典杀菌剂再创辉煌</a></div>
+                    <div class="article-meta">
+                        公众号: 农药资讯网 | 发布时间: 2026-03-20 08:54:00 | 阅读: 1284 | 点赞: 12
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MjM5NTc1NTg0Mg==&mid=2649520220&idx=1&sn=24f4e23cfe71c0c8f988dbc5eb30ac9c&chksm=644110#rd" target="_blank">张雪峰去世，把我搞应激了</a></div>
+                    <div class="article-meta">
+                        公众号: 晏凌羊 | 发布时间: 2026-03-24 22:57:00 | 阅读: 19971 | 点赞: 389
+                    </div>
+                    <div class="article-score">评分: 75/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzU5NzAyMzEwMg==&mid=2247650541&idx=2&sn=6c9d7bb531fe7f4fb0de4bc303c8e68e&chksm=120686#rd" target="_blank">重看这片，才懂刘震云没说透的话</a></div>
+                    <div class="article-meta">
+                        公众号: 四味毒叔 | 发布时间: 2026-03-26 19:48:28 | 阅读: 491 | 点赞: 1
+                    </div>
+                    <div class="article-score">评分: 60/100</div>
+                </div>
+                
+            </div>
+            
+            <div class="articles-section">
+                <h2>农药协同增效</h2>
+            
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=Mzg5ODIxMjk3Mw==&mid=2247621696&idx=1&sn=7fbb1289c185317fbb84eabf0deee74e&chksm=900652#rd" target="_blank">畅销20年经久不衰！拜耳这款经典杀菌剂再创辉煌</a></div>
+                    <div class="article-meta">
+                        公众号: 农药资讯网 | 发布时间: 2026-03-20 08:54:00 | 阅读: 1284 | 点赞: 12
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                </div>
+                
+            </div>
+            
+            <div class="articles-section">
+                <h2>农药技术实践</h2>
+            
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNTY1NjM4MQ==&mid=2247489082&idx=1&sn=f78dd941ae08469a11e1e6d0773979e1&chksm=990428#rd" target="_blank">从海洛因到“蜜蜂杀手”：拜耳公司百年毒史与环境战争</a></div>
+                    <div class="article-meta">
+                        公众号: 希言社 | 发布时间: 2026-03-22 06:31:00 | 阅读: 1476 | 点赞: 210
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=Mzg5ODIxMjk3Mw==&mid=2247621696&idx=1&sn=7fbb1289c185317fbb84eabf0deee74e&chksm=900652#rd" target="_blank">畅销20年经久不衰！拜耳这款经典杀菌剂再创辉煌</a></div>
+                    <div class="article-meta">
+                        公众号: 农药资讯网 | 发布时间: 2026-03-20 08:54:00 | 阅读: 1284 | 点赞: 12
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=Mzg2ODAwMjUzMg==&mid=2247658191&idx=1&sn=cbec4afc9af37c54a4d97efd4920907a&chksm=885926#rd" target="_blank">讲述∶把儿子放在农村婆婆家，一年后却没了踪影......</a></div>
+                    <div class="article-meta">
+                        公众号: 晚情的休闲时光 | 发布时间: 2026-03-26 19:28:09 | 阅读: 3365 | 点赞: 35
+                    </div>
+                    <div class="article-score">评分: 70/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzI1MzY3NTMzMQ==&mid=2247531686&idx=1&sn=0ad22f3952cc7717e99ed7b0a4bafde5&chksm=185286#rd" target="_blank">《潍坊民企之声》天一化学：科创赋能化工新篇</a></div>
+                    <div class="article-meta">
+                        公众号: 潍坊工商联 | 发布时间: 2026-03-20 09:51:20 | 阅读: 480 | 点赞: 9
+                    </div>
+                    <div class="article-score">评分: 60/100</div>
+                </div>
+                
+            </div>
+            
+            <div class="articles-section">
+                <h2>农药政策法规</h2>
+            
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzkyNTY1NjM4MQ==&mid=2247489082&idx=1&sn=f78dd941ae08469a11e1e6d0773979e1&chksm=990428#rd" target="_blank">从海洛因到“蜜蜂杀手”：拜耳公司百年毒史与环境战争</a></div>
+                    <div class="article-meta">
+                        公众号: 希言社 | 发布时间: 2026-03-22 06:31:00 | 阅读: 1476 | 点赞: 210
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=Mzg5ODIxMjk3Mw==&mid=2247621696&idx=1&sn=7fbb1289c185317fbb84eabf0deee74e&chksm=900652#rd" target="_blank">畅销20年经久不衰！拜耳这款经典杀菌剂再创辉煌</a></div>
+                    <div class="article-meta">
+                        公众号: 农药资讯网 | 发布时间: 2026-03-20 08:54:00 | 阅读: 1284 | 点赞: 12
+                    </div>
+                    <div class="article-score">评分: 90/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzA5MTA2MTY5Ng==&mid=2651400709&idx=2&sn=64dd5d5b574c381b3d69045140d9cadd&chksm=792810#rd" target="_blank">3人非法销售被抓！紧急提醒：这种螺别买、别吃！</a></div>
+                    <div class="article-meta">
+                        公众号: 广州普法 | 发布时间: 2026-03-26 17:58:17 | 阅读: 2697 | 点赞: 21
+                    </div>
+                    <div class="article-score">评分: 70/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzIxMjAyODM0MQ==&mid=2650480551&idx=1&sn=241249d5b40a0d1545c74084aa21e882&chksm=652884#rd" target="_blank">3人被抓！紧急提醒：这种螺，别买、别吃！</a></div>
+                    <div class="article-meta">
+                        公众号: 广东普法 | 发布时间: 2026-03-26 07:46:05 | 阅读: 5256 | 点赞: 22
+                    </div>
+                    <div class="article-score">评分: 65/100</div>
+                </div>
+                
+                <div class="article-card">
+                    <div class="article-title"><a href="https://mp.weixin.qq.com/s?__biz=MzI1MzY3NTMzMQ==&mid=2247531686&idx=1&sn=0ad22f3952cc7717e99ed7b0a4bafde5&chksm=185286#rd" target="_blank">《潍坊民企之声》天一化学：科创赋能化工新篇</a></div>
+                    <div class="article-meta">
+                        公众号: 潍坊工商联 | 发布时间: 2026-03-20 09:51:20 | 阅读: 480 | 点赞: 9
+                    </div>
+                    <div class="article-score">评分: 60/100</div>
+                </div>
+                
+            </div>
+            
+            </div>
+            
+            <div class="footer">
+                <p>报告由公众号文章抓取与分析工具生成 | 数据来源: 微信公众号</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    

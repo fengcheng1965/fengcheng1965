@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>农用杀螨剂信息平台</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .search-form {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        label {
+            display: inline-block;
+            width: 100px;
+            font-weight: bold;
+        }
+        input {
+            padding: 8px;
+            width: 200px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        .stats {
+            margin-top: 40px;
+        }
+        .chart {
+            margin-top: 20px;
+            height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>农用杀螨剂信息平台</h1>
+        
+        <!-- 搜索表单 -->
+        <div class="search-form">
+            <h2>搜索杀螨剂</h2>
+            <div class="form-group">
+                <label for="crop">作物类型:</label>
+                <input type="text" id="crop" placeholder="如：柑橘">
+            </div>
+            <div class="form-group">
+                <label for="mite">螨虫种类:</label>
+                <input type="text" id="mite" placeholder="如：红蜘蛛">
+            </div>
+            <div class="form-group">
+                <label for="ingredient">有效成分:</label>
+                <input type="text" id="ingredient" placeholder="如：阿维菌素">
+            </div>
+            <button onclick="searchProducts()">搜索</button>
+        </div>
+        
+        <!-- 搜索结果 -->
+        <div class="results">
+            <h2>搜索结果</h2>
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>产品名称</th>
+                        <th>有效成分</th>
+                        <th>生产企业</th>
+                        <th>登记号</th>
+                        <th>防治对象</th>
+                        <th>适用作物</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    <!-- 结果将通过JavaScript动态添加 -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- 数据统计 -->
+        <div class="stats">
+            <h2>市场统计</h2>
+            <div id="statsContent">
+                <!-- 统计数据将通过JavaScript动态添加 -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 搜索产品
+        function searchProducts() {
+            const crop = document.getElementById('crop').value;
+            const mite = document.getElementById('mite').value;
+            const ingredient = document.getElementById('ingredient').value;
+            
+            fetch('http://localhost:5000/api/products/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ crop, mite, ingredient })
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayResults(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('搜索失败，请检查后端服务是否运行');
+            });
+        }
+        
+        // 显示搜索结果
+        function displayResults(products) {
+            const tbody = document.getElementById('resultsBody');
+            tbody.innerHTML = '';
+            
+            if (products.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6">没有找到匹配的产品</td></tr>';
+                return;
+            }
+            
+            products.forEach(product => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${product['名称']}</td>
+                    <td>${product['有效成分']}</td>
+                    <td>${product['生产企业']}</td>
+                    <td>${product['登记号']}</td>
+                    <td>${product['防治对象']}</td>
+                    <td>${product['适用作物']}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // 获取统计数据
+        function getStats() {
+            fetch('http://localhost:5000/api/stats')
+            .then(response => response.json())
+            .then(data => {
+                displayStats(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('获取统计数据失败，请检查后端服务是否运行');
+            });
+        }
+        
+        // 显示统计数据
+        function displayStats(stats) {
+            const statsContent = document.getElementById('statsContent');
+            statsContent.innerHTML = `
+                <p>产品总数: ${stats.product_count}</p>
+                <h3>有效成分分布</h3>
+                <ul>
+                    ${stats.ingredient_distribution.map(item => `<li>${item._id}: ${item.count}个产品</li>`).join('')}
+                </ul>
+                <h3>价格分布</h3>
+                <ul>
+                    ${stats.price_distribution.map(item => `<li>${item._id}: ${item.count}个产品</li>`).join('')}
+                </ul>
+                <h3>防治对象分布</h3>
+                <ul>
+                    ${stats.target_distribution.map(item => `<li>${item._id}: ${item.count}个产品</li>`).join('')}
+                </ul>
+                <h3>适用作物分布</h3>
+                <ul>
+                    ${stats.crop_distribution.map(item => `<li>${item._id}: ${item.count}个产品</li>`).join('')}
+                </ul>
+            `;
+        }
+        
+        // 页面加载时获取所有产品
+        window.onload = function() {
+            fetch('http://localhost:5000/api/products')
+            .then(response => response.json())
+            .then(data => {
+                displayResults(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('获取产品列表失败，请检查后端服务是否运行');
+            });
+            
+            // 获取统计数据
+            getStats();
+        };
+    </script>
+</body>
+</html>
